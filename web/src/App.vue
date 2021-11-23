@@ -20,9 +20,9 @@
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
-        <a-breadcrumb-item>Todo</a-breadcrumb-item>
-        <a-breadcrumb-item>Todo</a-breadcrumb-item>
-        <a-breadcrumb-item>Todo</a-breadcrumb-item>
+        <a-breadcrumb-item v-for="item in breadcrumbs($router)" :key="item">
+          {{ item }}
+        </a-breadcrumb-item>
       </a-breadcrumb>
       <div :style="{ background: '#fff', padding: '24px', minHeight: '80vh' }">
         <router-view/>
@@ -33,6 +33,7 @@
     </a-layout-footer>
   </a-layout>
 </template>
+
 <script>
 import {defineComponent, ref} from 'vue';
 // eslint-disable-next-line no-unused-vars
@@ -40,8 +41,13 @@ import {string} from "vue-types";
 
 export default defineComponent({
   setup() {
+    const breadcrumbs = function (router) {
+      let routes = router.currentRoute.value.fullPath;
+      return routes.split('/').splice(1, routes.length);
+    }
     return {
-      selectedKeys: ref < string[string] > (['quizzes', 'about']),
+      breadcrumbs,
+      selectedKeys: ref<string[string]>(['quizzes', 'about']),
     };
   },
 });
