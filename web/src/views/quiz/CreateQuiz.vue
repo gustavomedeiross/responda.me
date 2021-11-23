@@ -5,10 +5,6 @@
       <a-input v-model:value="quiz.title"/>
     </a-form-item>
 
-    <a-form-item label="Descrição" v-bind="validateInfos.description">
-      <a-textarea v-model:value="quiz.description"/>
-    </a-form-item>
-
     <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click.prevent="onSubmit">Salvar</a-button>
       <a-button style="margin-left: 10px" @click="resetFields">Limpar</a-button>
@@ -21,13 +17,13 @@
 
 import {defineComponent, reactive, toRaw} from 'vue';
 import {Form} from 'ant-design-vue';
+import quizService from "@/services/QuizService";
 
 const useForm = Form.useForm;
 export default defineComponent({
   setup() {
     const quiz = reactive({
-      title: '',
-      description: ''
+      title: ''
     });
     const rulesRef = reactive({
       title: [
@@ -35,18 +31,16 @@ export default defineComponent({
           required: true,
           message: 'O título é obrigatório',
         },
-      ],
-      description: [
-        {
-          required: false,
-        },
-      ],
+      ]
     });
     const {resetFields, validate, validateInfos} = useForm(quiz, rulesRef);
     const onSubmit = () => {
       validate()
           .then(() => {
-            console.log(toRaw(quiz));
+            console.log('cadastrando...', toRaw(quiz));
+
+            quizService.createQuiz(quiz);
+
           })
           .catch(err => {
             console.log('error', err);
