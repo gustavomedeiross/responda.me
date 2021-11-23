@@ -10,6 +10,7 @@ defmodule Responda.MeWeb.Router do
 
     # TODO: add authentication
     resources "/quizzes", QuizController
+    resources "/quizzes/:id/questions", QuestionController
   end
 
   # Enables LiveDashboard only for development
