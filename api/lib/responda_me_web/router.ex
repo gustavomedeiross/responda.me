@@ -5,8 +5,12 @@ defmodule Responda.MeWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", Responda.MeWeb do
+  scope "/api", Responda.MeWeb.Api, as: :api do
     pipe_through :api
+
+    # TODO: add authentication
+    resources "/quizzes", QuizController
+    resources "/quizzes/:id/questions", QuestionController
   end
 
   # Enables LiveDashboard only for development
