@@ -4,6 +4,7 @@ import About from "@/views/About.vue";
 import Login from "@/views/Login";
 import Quizzes from "@/views/quiz/Quizzes";
 import CreateQuiz from "@/views/quiz/Quizzes";
+import EditQuiz from "@/views/quiz/EditQuiz";
 
 const routes = [
     {
@@ -28,7 +29,11 @@ const routes = [
             }
         ]
     },
-
+    {
+        path: '/quizzes/:id',
+        name: 'edit',
+        component: EditQuiz
+    },
     {
         path: '/about',
         name: 'about',

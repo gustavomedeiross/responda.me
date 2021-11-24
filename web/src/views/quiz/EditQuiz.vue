@@ -1,4 +1,5 @@
 <template>
+  <a-typography-title>{{ $router.currentRoute.value.params['id'] }}</a-typography-title>
   <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
 
     <a-form-item label="Título" v-bind="validateInfos.title">
@@ -7,25 +8,40 @@
 
     <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click.prevent="onSubmit($router)">Salvar</a-button>
-      <a-button style="margin-left: 10px" @click="resetFields">Limpar</a-button>
     </a-form-item>
 
   </a-form>
 </template>
 
+
 <script>
 
-import {defineComponent, reactive, toRaw} from 'vue';
+import {defineComponent, reactive} from 'vue';
 import {Form} from 'ant-design-vue';
 import {baseUrl} from "@/services/QuizService";
 import axios from "axios";
 
 const useForm = Form.useForm;
 export default defineComponent({
+  data() {
+    return {
+      quiz: {}
+    }
+  },
+  beforeMount() {
+    this.loadQuiz();
+  },
+  methods: {
+    loadQuiz() {
+      axios.get(baseUrl + "/quizzes/" + this.router.currentRoute.value.params['id'])
+          .then(res => {
+            this.quiz = res.data;
+          }).catch(err => {
+        console.error(err);
+      })
+    }
+  },
   setup() {
-    const quiz = reactive({
-      title: ''
-    });
     const rulesRef = reactive({
       title: [
         {
@@ -34,22 +50,11 @@ export default defineComponent({
         },
       ]
     });
-    const {resetFields, validate, validateInfos} = useForm(quiz, rulesRef);
+    const {resetFields, validate, validateInfos} = useForm(this.quiz, rulesRef);
     const onSubmit = (router) => {
       validate()
           .then(() => {
-            console.log('cadastrando...', toRaw(quiz));
-
-            axios.post(baseUrl + '/quizzes', {
-              quiz: quiz
-            }).then((res) => {
-              console.log(res.data.data.id);
-              console.log(router);
-              router.removeRoute({name: 'create'})
-              router.push({path: '/quizzes/' + res.data.data.id})
-            }).catch((err) => {
-              console.error(err);
-            });
+            console.log(router.currentRoute.value.params["id"]);
 
           })
           .catch(err => {
@@ -61,10 +66,10 @@ export default defineComponent({
       wrapperCol: {span: 14},
       validateInfos,
       resetFields,
-      quiz,
       onSubmit,
     };
   },
 });
 </script>
+
 
