@@ -1,13 +1,50 @@
 <template>
-  <a-typography-title>{{ $router.currentRoute.value.params['id'] }}</a-typography-title>
-  <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
+  <h4>{{ $router.currentRoute.value.params['id'] }}</h4>
+  <a-form >
 
-    <a-form-item label="Título" v-bind="validateInfos.title">
+    {{quiz}}
+    <br/>
+    {{alternative}}
+    <br/>
+    {{questions}}
+
+    <a-form-item label="Título">
       <a-input v-model:value="quiz.title"/>
     </a-form-item>
 
-    <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-      <a-button type="primary" @click.prevent="onSubmit($router)">Salvar</a-button>
+    <a-divider/>
+
+    <a-form-item :wrapper-col="{ span: 5, offset: 4 }" v-if="!creatingNewQuestion">
+      <a-button type="primary" @click.prevent="newQuestion()">Adicionar Questões</a-button>
+    </a-form-item>
+
+    <div v-if="creatingNewQuestion">
+
+      <a-form-item label="Questão 1">
+        <a-input v-model:value="questions.content"/>
+      </a-form-item>
+
+
+      <a-form-item v-for="alternative in alternative" :key="alternative.key">
+
+        <div style="display: flex">
+          <a-radio v-model:checked="alternative.correct" @click="checkCorrect(alternative.key)"/>
+          <a-input v-model:value="alternative.description"/>
+          <a-button style="margin-left: 20px" type="primary" danger @click.prevent="removeAlternative(alternative.key)">
+            -
+          </a-button>
+        </div>
+      </a-form-item>
+
+      <a-form-item :wrapper-col="{ span: 5, offset: 22 }">
+        <a-button type="primary" @click.prevent="newAlternative()">+</a-button>
+      </a-form-item>
+
+    </div>
+
+
+    <a-form-item :wrapper-col="{ span: 5, offset: 22 }">
+      <a-button type="primary" @click.prevent="onSubmit()">{{ getSaveDescription() }}</a-button>
     </a-form-item>
 
   </a-form>
@@ -16,16 +53,24 @@
 
 <script>
 
-import {defineComponent, reactive} from 'vue';
-import {Form} from 'ant-design-vue';
+import {defineComponent} from 'vue';
 import {baseUrl} from "@/services/QuizService";
 import axios from "axios";
 
-const useForm = Form.useForm;
+
 export default defineComponent({
   data() {
     return {
-      quiz: {}
+      quiz: {
+        id: '',
+        title: ''
+      },
+      questions: {
+        content: '',
+      },
+      alternative: [],
+      count: 0,
+      creatingNewQuestion: false
     }
   },
   beforeMount() {
@@ -33,42 +78,49 @@ export default defineComponent({
   },
   methods: {
     loadQuiz() {
-      axios.get(baseUrl + "/quizzes/" + this.router.currentRoute.value.params['id'])
+      axios.get(baseUrl + "/quizzes/" + this.$router.currentRoute.value.params['id'])
           .then(res => {
-            this.quiz = res.data;
+            console.log(res.data.data);
+            this.quiz = res.data.data;
           }).catch(err => {
         console.error(err);
       })
+    },
+    onSubmit() {
+      if (this.creatingNewQuestion) {
+        this.creatingNewQuestion = false;
+        // save question
+      } else {
+        // save quiz
+      }
+    },
+    newQuestion() {
+      this.creatingNewQuestion = true;
+    },
+    getSaveDescription() {
+      if (this.creatingNewQuestion) {
+        return 'Salvar Questão';
+      }
+      return 'Salvar';
+    },
+    newAlternative() {
+      this.alternative.push({
+        description: '',
+        correct: false,
+        key: this.count++
+      })
+    },
+    removeAlternative(key) {
+      this.alternative = this.alternative.filter(function (item) {
+        return item.key !== key
+      })
+    },
+    checkCorrect(key) {
+      this.alternative.forEach((value => {
+        value.correct = value.key === key;
+      }))
     }
-  },
-  setup() {
-    const rulesRef = reactive({
-      title: [
-        {
-          required: true,
-          message: 'O título é obrigatório',
-        },
-      ]
-    });
-    const {resetFields, validate, validateInfos} = useForm(this.quiz, rulesRef);
-    const onSubmit = (router) => {
-      validate()
-          .then(() => {
-            console.log(router.currentRoute.value.params["id"]);
-
-          })
-          .catch(err => {
-            console.log('error', err);
-          });
-    };
-    return {
-      labelCol: {span: 4},
-      wrapperCol: {span: 14},
-      validateInfos,
-      resetFields,
-      onSubmit,
-    };
-  },
+  }
 });
 </script>
 
