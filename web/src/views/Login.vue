@@ -8,20 +8,21 @@
     :model="formState"
     @finish="handleFinish"
     @finishFailed="handleFinishFailed"
-     style="background: #778899; margin: 100px 400px 100px 400px;"
+     style="background: #97a7c2; margin: 100px 410px 100px 420px; border-radius: 5px;"
     
   >
- <h2>Login</h2>
+ <h2 style="margin: 20px 20px;">Login</h2>
     <a-row type="primary" justify="center"  >
        
       <a-col :span="12">
-        <a-form-item>
+        <a-form-item >
           <a-input v-model:value="formState.user" placeholder="Nome de Usuário">
             <template #prefix
               ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
             /></template>
           </a-input>
         </a-form-item>
+        
         <a-form-item>
           <a-input
             v-model:value="formState.password"
@@ -41,8 +42,13 @@
           >
             Log in
           </a-button>
-        </a-form-item></a-col
-      >
+        </a-form-item>
+      
+        </a-col>
+         <a-row type="primary" justify="center"  >
+        <p>ainda não tem Cadastro?</p>
+        <a href="/register">cadastrar-se</a>
+       </a-row>
     </a-row>
   </a-form>
 </div>
