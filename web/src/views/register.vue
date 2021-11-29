@@ -11,7 +11,7 @@
      style="background: #778899; margin: 100px 400px 100px 400px;"
     
   >
- <h2>Login</h2>
+ <h2>Cadastro</h2>
     <a-row type="primary" justify="center"  >
        
       <a-col :span="12">
