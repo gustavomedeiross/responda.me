@@ -7,7 +7,7 @@
       :model="formState"
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
-      style="background: #d8e1f0; margin: 30px 300px 30px 300px; border-radius: 5px;"
+      style="background: #d1dae8; margin: 30px 300px 30px 300px; border-radius: 5px;"
     >
       <h2>Cadastro</h2>
       <a-row type="primary" justify="center">
@@ -16,13 +16,14 @@
             <a-input
               v-model:value="formState.user"
               placeholder="Nome de Usuário"
+          
             >
               <template #prefix
-                ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
+                ><UserOutlined style="color: rgba(0, 0, 0, 0.25); "
               /></template>
             </a-input>
           </a-form-item>
-          <a-form-item>
+          <a-form-item type="e-mail">
             <a-input v-model:value="formState.email" placeholder="Email">
               <template #prefix
                 ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
@@ -45,7 +46,7 @@
             <a-input
               v-model:value="formState.confirm"
               type="password"
-              placeholder="Conformar Senha"
+              placeholder="Confirmar Senha"
             >
               <template #prefix
                 ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
@@ -65,8 +66,13 @@
             >
               Registrar-se
             </a-button>
+             <a-row type="primary" justify="center"  >
+        <p>Já Tem Cadastro?</p>
+        <a href="/login">Login</a>
+       </a-row>
           </a-form-item>
         </a-col>
+        
       </a-row>
     </a-form>
   </div>
