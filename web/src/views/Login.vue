@@ -8,7 +8,7 @@
     :model="formState"
     @finish="handleFinish"
     @finishFailed="handleFinishFailed"
-     style="background: #97a7c2; margin: 100px 410px 100px 420px; border-radius: 5px;"
+     style="background: #d8e1f0; margin: 100px 410px 100px 420px; border-radius: 5px;"
     
   >
  <h2 style="margin: 20px 20px;">Login</h2>

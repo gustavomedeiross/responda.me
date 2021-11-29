@@ -7,7 +7,7 @@
       :model="formState"
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
-      style="background: #97a7c2; margin: 30px 300px 30px 300px; border-radius: 5px;"
+      style="background: #d8e1f0; margin: 30px 300px 30px 300px; border-radius: 5px;"
     >
       <h2>Cadastro</h2>
       <a-row type="primary" justify="center">
