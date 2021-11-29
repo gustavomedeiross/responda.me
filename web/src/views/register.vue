@@ -7,7 +7,7 @@
       :model="formState"
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
-      style="background: #d1dae8; margin: 30px 300px 30px 300px; border-radius: 5px;"
+      style="background: #c6dff7; margin: 30px 300px 30px 300px; border-radius: 5px;border-color: blue;"
     >
       <h2>Cadastro</h2>
       <a-row type="primary" justify="center">
@@ -66,6 +66,7 @@
             >
               Registrar-se
             </a-button>
+              <a-divider/>
              <a-row type="primary" justify="center"  >
         <p>Já Tem Cadastro?</p>
         <a href="/login">Login</a>

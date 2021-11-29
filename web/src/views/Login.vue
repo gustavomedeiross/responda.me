@@ -8,7 +8,7 @@
     :model="formState"
     @finish="handleFinish"
     @finishFailed="handleFinishFailed"
-     style="background: #d1dae8; margin: 60px 410px 60px 420px; border-radius: 5px;"
+     style="background: #c6dff7; margin: 60px 410px 60px 420px; border-radius: 5px;"
 
   >
  <h2 style="margin: 20px 20px;">Login</h2>
@@ -42,13 +42,15 @@
           >
             Log in
           </a-button>
-        </a-form-item>
-      
-        </a-col>
-         <a-row type="primary" justify="center"  >
+         <a-divider/>
+           <a-row type="primary" justify="center"  >
         <p>ainda não tem Cadastro?</p>
         <a href="/register">cadastrar-se</a>
        </a-row>
+        </a-form-item>
+      
+        </a-col>
+        
     </a-row>
   </a-form>
 </div>
