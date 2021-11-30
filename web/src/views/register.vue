@@ -56,6 +56,7 @@
           <a-form-item>
             <a-button
               type="primary"
+              style="background: #6d25a4"
               html-type="submit"
               :disabled="
                 formState.user === '' ||

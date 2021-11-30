@@ -1,18 +1,18 @@
 <template>
-  <a-layout class="layout">
-    <a-layout-header>
-      <div class="logo"/>
+  <a-layout class="layout" >
+    <a-layout-header style="background: #6d25a4">
+      <div class="logo" />
       <a-menu
           v-model:selectedKeys="selectedKeys"
-          theme="dark"
+         style="background: #6d25a4"
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="quizzes">
+        <a-menu-item key="quizzes" >
           <router-link to="/quizzes"></router-link>
           Quizzes
         </a-menu-item>
-        <a-menu-item key="about">
+        <a-menu-item key="about" >
           <router-link to="/about"></router-link>
           About
         </a-menu-item>
@@ -72,7 +72,8 @@ export default defineComponent({
   margin: 16px 0 16px 24px;
 }
 
-[data-theme='dark'] .site-layout-content {
+/* [data-theme='dark'] .site-layout-content {
+ 
   background: #141414;
-}
+} */
 </style>
