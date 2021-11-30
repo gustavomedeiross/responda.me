@@ -7,6 +7,8 @@ defmodule Responda.MeWeb.Api.QuestionControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  setup [:create_user_and_assign_valid_jwt]
+
   describe "index" do
     test "lists all questions", %{conn: conn} do
       quiz = insert!(:quiz)

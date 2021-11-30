@@ -14,15 +14,14 @@ defmodule Responda.MeWeb.Router do
 
     post "/users/register", RegisterUserController, :create
     post "/users/sessions", UserSessionController, :create
-
-    # TODO: add authentication
-    resources "/quizzes", QuizController
-    resources "/quizzes/:id/questions", QuestionController
   end
 
   # Authenticated routes
   scope "/api", Responda.MeWeb.Api, as: :api do
     pipe_through [:api, :api_authenticated]
+
+    resources "/quizzes", QuizController
+    resources "/quizzes/:id/questions", QuestionController
   end
 
   # Enables LiveDashboard only for development

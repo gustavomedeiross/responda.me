@@ -66,16 +66,14 @@ defmodule Responda.Me.AccountsTest do
     end
   end
 
-  describe "get_user!/1" do
+  describe "get_user/1" do
     test "raises if id is invalid" do
-      assert_raise Ecto.NoResultsError, fn ->
-        Accounts.get_user!("98f4a981-0f36-473f-9616-2adfe89adb11")
-      end
+      assert Accounts.get_user("98f4a981-0f36-473f-9616-2adfe89adb11") == nil
     end
 
     test "returns the user with the given id" do
       %{id: id} = user = user_fixture()
-      assert %User{id: ^id} = Accounts.get_user!(user.id)
+      assert %User{id: ^id} = Accounts.get_user(user.id)
     end
   end
 
@@ -210,7 +208,7 @@ defmodule Responda.Me.AccountsTest do
       email = unique_user_email()
       {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email: email})
       assert user.email == email
-      assert Accounts.get_user!(user.id).email != email
+      assert Accounts.get_user(user.id).email != email
     end
   end
 
