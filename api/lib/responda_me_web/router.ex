@@ -12,6 +12,7 @@ defmodule Responda.MeWeb.Router do
   scope "/api", Responda.MeWeb.Api, as: :api do
     pipe_through :api
 
+    post "/users/register", RegisterUserController, :create
     post "/users/sessions", UserSessionController, :create
 
     # TODO: add authentication
