@@ -4,13 +4,24 @@ defmodule Responda.MeWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+  
+  pipeline :api_authenticated do
+    plug Responda.MeWeb.AuthAccessPipeline
+  end
 
   scope "/api", Responda.MeWeb.Api, as: :api do
     pipe_through :api
 
+    post "/users/sessions", UserSessionController, :create
+
     # TODO: add authentication
     resources "/quizzes", QuizController
     resources "/quizzes/:id/questions", QuestionController
+  end
+
+  # Authenticated routes
+  scope "/api", Responda.MeWeb.Api, as: :api do
+    pipe_through [:api, :api_authenticated]
   end
 
   # Enables LiveDashboard only for development

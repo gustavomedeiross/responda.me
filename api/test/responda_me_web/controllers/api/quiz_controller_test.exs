@@ -36,7 +36,7 @@ defmodule Responda.MeWeb.Api.QuizControllerTest do
       conn = get(conn, Routes.api_quiz_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _id,
                "title" => "some title"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +57,7 @@ defmodule Responda.MeWeb.Api.QuizControllerTest do
       conn = get(conn, Routes.api_quiz_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _id,
                "title" => "some updated title"
              } = json_response(conn, 200)["data"]
     end

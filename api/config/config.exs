@@ -20,6 +20,15 @@ config :responda_me, Responda.MeWeb.Endpoint,
   pubsub_server: Responda.Me.PubSub,
   live_view: [signing_salt: "rJe8g70g"]
 
+config :responda_me, Responda.Me.Guardian,
+  issuer: "responda_me",
+  secret_key: "00aVpIg/0RfPaXFbYB4lzy7nZiH9YyyUefbrs/f7IJ1Ir2xAoKjERRFwn8GG2ATj",
+  ttl: {1, :day}
+
+config :responda_me, Responda.MeWeb.AuthAccessPipeline,
+  module: Responda.Me.Guardian,
+  error_handler: Responda.MeWeb.AuthErrorHandler
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

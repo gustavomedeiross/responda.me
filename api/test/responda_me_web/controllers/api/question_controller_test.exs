@@ -3,9 +3,6 @@ defmodule Responda.MeWeb.Api.QuestionControllerTest do
 
   import Responda.Me.Factory
 
-  alias Responda.Me.Questions
-  alias Responda.Me.Questions.Question
-
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end

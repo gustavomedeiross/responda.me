@@ -106,7 +106,7 @@ defmodule Responda.Me.QuestionsTest do
     end
 
     test "should not update a question without alternatives" do
-      question = insert!(:question, quiz: build(:quiz), alternatives: [
+      insert!(:question, quiz: build(:quiz), alternatives: [
         build(:alternative, [content: "#1", correct: true]),
         build(:alternative, [content: "#2", correct: false]),
       ])
