@@ -40,6 +40,7 @@
             style="background: #6d25a4"
             html-type="submit"
             :disabled="formState.user === '' || formState.password === ''"
+            @click.prevent="onSubmit(formState)"
           >
             Login
           </a-button>
@@ -59,12 +60,27 @@
 <script>
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive } from "vue";
+import axios from "axios";
+import {baseUrl} from "@/services/QuizService";
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
   },
-
+  methods: {
+    onSubmit(userData) {
+      axios.post(baseUrl + '/users/sessions', {
+        email: userData.user,
+        password: userData.password
+      }).then((res) => {
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("user", JSON.stringify(res.data.user))
+        this.$router.push("/quizzes")
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+  },
   setup() {
     const formState = reactive({
       user: "",

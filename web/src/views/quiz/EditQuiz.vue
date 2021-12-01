@@ -102,6 +102,11 @@ export default defineComponent({
     }
   },
   beforeMount() {
+    if (sessionStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+
+
     this.loadQuiz();
     this.loadQuestions();
   },

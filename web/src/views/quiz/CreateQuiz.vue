@@ -26,6 +26,11 @@ export default defineComponent({
     const quiz = reactive({
       title: ''
     });
+
+    if (sessionStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+
     const rulesRef = reactive({
       title: [
         {
