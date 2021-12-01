@@ -17,8 +17,8 @@ defmodule Responda.Me.Quizzes do
       [%Quiz{}, ...]
 
   """
-  def list_quizzes do
-    Repo.all(Quiz)
+  def list_quizzes(user) do
+    Repo.all(Quiz, user_id: user.id)
   end
 
   @doc """
@@ -51,7 +51,7 @@ defmodule Responda.Me.Quizzes do
   """
   def create_quiz(attrs \\ %{}) do
     %Quiz{}
-    |> Quiz.changeset(attrs)
+    |> Quiz.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +69,7 @@ defmodule Responda.Me.Quizzes do
   """
   def update_quiz(%Quiz{} = quiz, attrs) do
     quiz
-    |> Quiz.changeset(attrs)
+    |> Quiz.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -87,18 +87,5 @@ defmodule Responda.Me.Quizzes do
   """
   def delete_quiz(%Quiz{} = quiz) do
     Repo.delete(quiz)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking quiz changes.
-
-  ## Examples
-
-      iex> change_quiz(quiz)
-      %Ecto.Changeset{data: %Quiz{}}
-
-  """
-  def change_quiz(%Quiz{} = quiz, attrs \\ %{}) do
-    Quiz.changeset(quiz, attrs)
   end
 end

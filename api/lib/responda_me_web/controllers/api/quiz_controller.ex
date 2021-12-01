@@ -1,18 +1,26 @@
 defmodule Responda.MeWeb.Api.QuizController do
   use Responda.MeWeb, :controller
 
+  alias Responda.Me.Guardian
   alias Responda.Me.Quizzes
   alias Responda.Me.Quizzes.Quiz
 
   action_fallback Responda.MeWeb.FallbackController
 
   def index(conn, _params) do
-    quizzes = Quizzes.list_quizzes()
+    quizzes = 
+      conn
+      |> get_user()
+      |> Quizzes.list_quizzes()
     render(conn, "index.json", quizzes: quizzes)
   end
 
+  defp get_user(conn), do: Guardian.Plug.current_resource(conn)
+
   def create(conn, %{"quiz" => quiz_params}) do
-    with {:ok, %Quiz{} = quiz} <- Quizzes.create_quiz(quiz_params) do
+    user = get_user(conn)
+    params = Map.put(quiz_params, "user_id", user.id)
+    with {:ok, %Quiz{} = quiz} <- Quizzes.create_quiz(params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.api_quiz_path(conn, :show, quiz))

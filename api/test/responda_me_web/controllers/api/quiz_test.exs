@@ -1,12 +1,11 @@
 defmodule Responda.MeWeb.Api.QuizTest do
   use Responda.MeWeb.ConnCase
 
-  alias Responda.Me.Quizzes
-  alias Responda.Me.Quizzes.Quiz
-
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
+
+  setup [:create_user_and_assign_valid_jwt]
 
   describe "create quiz" do
     test "user can create a quiz and add two questions", %{conn: conn} do

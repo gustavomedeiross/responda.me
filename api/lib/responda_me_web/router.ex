@@ -4,11 +4,22 @@ defmodule Responda.MeWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+  
+  pipeline :api_authenticated do
+    plug Responda.MeWeb.AuthAccessPipeline
+  end
 
   scope "/api", Responda.MeWeb.Api, as: :api do
     pipe_through :api
 
-    # TODO: add authentication
+    post "/users/register", RegisterUserController, :create
+    post "/users/sessions", UserSessionController, :create
+  end
+
+  # Authenticated routes
+  scope "/api", Responda.MeWeb.Api, as: :api do
+    pipe_through [:api, :api_authenticated]
+
     resources "/quizzes", QuizController
     resources "/quizzes/:id/questions", QuestionController
   end

@@ -5,6 +5,7 @@ defmodule Responda.Me.Factory do
   """
 
   alias Responda.Me.Repo
+  alias Responda.Me.Accounts
   alias Responda.Me.Quizzes
   alias Responda.Me.Questions
 
@@ -12,9 +13,19 @@ defmodule Responda.Me.Factory do
   defp random_integer(), do: 100
   defp random_date(), do: ~N[2010-04-17 14:00:00]
 
+  def build(:user) do
+    %Accounts.User{
+      first_name: random_string(),
+      last_name: random_string(),
+      email: random_string(),
+      hashed_password: random_string(),
+    }
+  end
+
   def build(:quiz) do
     %Quizzes.Quiz{
       title: random_string(),
+      user: build(:user),
     }
   end
 
