@@ -112,7 +112,12 @@ export default defineComponent({
   },
   methods: {
     loadQuiz() {
-      axios.get(baseUrl + "/quizzes/" + this.$router.currentRoute.value.params['id'])
+      axios.get(baseUrl + "/quizzes/" + this.$router.currentRoute.value.params['id'],
+          {
+            headers: {
+              authorization: 'Bearer ' + sessionStorage.getItem("token")
+            }
+          })
           .then(res => {
             console.log(res.data.data);
             this.quiz = res.data.data;
@@ -129,6 +134,10 @@ export default defineComponent({
             quiz_id: quizId,
             title: this.question.content,
             alternatives: this.alternative
+          }
+        }, {
+          headers: {
+            authorization: 'Bearer ' + sessionStorage.getItem("token")
           }
         })
             .then(res => {
@@ -147,7 +156,11 @@ export default defineComponent({
     },
     loadQuestions() {
       let quizId = this.$router.currentRoute.value.params['id'];
-      axios.get(baseUrl + "/quizzes/" + quizId + "/questions")
+      axios.get(baseUrl + "/quizzes/" + quizId + "/questions", {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem("token")
+        }
+      })
           .then(res => {
             this.questions = res.data.data;
           }).catch(err => {
@@ -157,7 +170,11 @@ export default defineComponent({
     editQuestion(question) {
       this.question = question;
       let quizId = this.$router.currentRoute.value.params['id'];
-      axios.get(baseUrl + "/quizzes/" + quizId + "/questions/" + question.id)
+      axios.get(baseUrl + "/quizzes/" + quizId + "/questions/" + question.id, {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem("token")
+        }
+      })
           .then(res => {
             this.questions = res.data.data;
           }).catch(err => {

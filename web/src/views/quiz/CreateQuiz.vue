@@ -47,6 +47,10 @@ export default defineComponent({
 
             axios.post(baseUrl + '/quizzes', {
               quiz: quiz
+            }, {
+              headers: {
+                authorization: 'Bearer ' + sessionStorage.getItem("token")
+              }
             }).then((res) => {
               console.log(res.data.data.id);
               console.log(router);
