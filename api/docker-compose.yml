@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+  api:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      MIX_ENV: dev
+      DB_HOST: postgres
+    ports:
+      - '4000:4000'
+    volumes:
+      - .:/app
+  postgres:
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: responda_me_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_HOST_AUTH_METHOD: trust
+    image: 'postgres:11-alpine'
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+volumes:
+  pgdata:

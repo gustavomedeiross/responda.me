@@ -5,7 +5,7 @@ config :responda_me, Responda.Me.Repo,
   username: "postgres",
   password: "secret",
   database: "responda_me_dev",
-  hostname: "localhost",
+  hostname: System.get_env("DB_HOST") || "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

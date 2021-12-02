@@ -1,19 +1,30 @@
-# Responda.Me
+# api.responda.me
 
-To start your Phoenix server:
+## Running the project locally:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+### With elixir installed on your machine:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Create a postgres container, if you don't already have one:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+```sh
+docker run --name postgres -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
+```
 
-## Learn more
+or 
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```sh
+docker-compose up -d postgres
+```
+
+Run the project
+```sh
+mix deps.get
+mix phx.server
+```
+
+### Docker & Docker-compose:
+
+Run the command `docker-compose up -d` in the root folder. This should build and run all the containers (phoenix & postgres) and setup all the required things.
+
+After the services are up, run `docker-compose run api mix ecto.create` and `docker-compose run api mix ecto.migrate` to create and migrate the database.
+
