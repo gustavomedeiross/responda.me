@@ -1,23 +1,33 @@
 <template>
-  <a-layout class="layout" >
+  <a-layout class="layout">
     <div v-if="!isLogged()" style="height: 120px">
     </div>
     <a-layout-header style="background: #6d25a4" v-if="isLogged()">
-      <div class="logo" />
+
       <a-menu
           v-model:selectedKeys="selectedKeys"
-         style="background: #6d25a4"
+          style="background: #6d25a4"
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="quizzes" class="header-set" >
+
+        <div style="display: flex">
+          <img
+              style="height: 20px; margin-top: 20px; margin-right: 50px"
+              src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/392/6463452392_dd72b9df-b12a-4bee-9657-0d3763163173.png?cb=1638557944"/>
+
+          <a-menu-item key="quizzes" class="header-set">
+
+          <ExperimentOutlined/>
           <router-link to="/quizzes"></router-link>
           Quizzes
         </a-menu-item>
         <a-menu-item key="about" class="header-set">
+          <QuestionCircleOutlined/>
           <router-link to="/about"></router-link>
           About
         </a-menu-item>
+        </div>
       </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
@@ -40,8 +50,14 @@
 import {defineComponent, ref} from 'vue';
 // eslint-disable-next-line no-unused-vars
 import {string} from "vue-types";
+import {ExperimentOutlined, QuestionCircleOutlined} from "@ant-design/icons-vue";
 
 export default defineComponent({
+  components: {
+    ExperimentOutlined,
+    QuestionCircleOutlined
+
+  },
   methods: {
     isLogged() {
       return sessionStorage.getItem("token") !== null;
@@ -80,6 +96,19 @@ export default defineComponent({
 }
 
 .header-set {
-  color: white;
+  color: #bae637;
+}
+
+.ant-btn-dangerous {
+  background-color: #bae637 !important;
+  color: #9254de !important;
+  border-color: #bae637 !important;
+}
+
+.ant-btn-primary {
+  font-weight: 400 !important;
+  color: #bae637 !important;
+  background-color: #9254de !important;
+  border-color: #9254de !important;
 }
 </style>

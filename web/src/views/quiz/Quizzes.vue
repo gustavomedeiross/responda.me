@@ -9,10 +9,10 @@
               <h3>{{ item.title }}</h3>
             </template>
           </a-list-item-meta>
-          <a-button style="margin-left: 20px" type="secondary" @click.prevent="editQuiz(item)">
+          <a-button style="margin-left: 20px" type="text" danger @click.prevent="editQuiz(item)">
             <EditOutlined/>
           </a-button>
-          <a-button style="margin-left: 20px" type="primary" danger @click.prevent="deleteQuiz(item)">
+          <a-button style="margin-left: 20px" type="text" danger @click.prevent="deleteQuiz(item)">
             <DeleteOutlined/>
           </a-button>
         </a-list-item>

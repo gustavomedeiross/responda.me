@@ -19,10 +19,10 @@
         <div style="display: flex">
           <a-input v-model:value="question.title"/>
 
-          <a-button style="margin-left: 20px" type="secondary" @click.prevent="editQuestion(question)">
+          <a-button style="margin-left: 20px" type="text" danger @click.prevent="editQuestion(question)">
             <EditOutlined/>
           </a-button>
-          <a-button style="margin-left: 20px" type="primary" danger @click.prevent="">
+          <a-button style="margin-left: 20px" type="text" danger @click.prevent="deleteQuestion(question)">
             <DeleteOutlined/>
           </a-button>
         </div>
@@ -192,6 +192,19 @@ export default defineComponent({
       })
           .then(res => {
             this.questions = res.data.data;
+          }).catch(err => {
+        console.error(err);
+      })
+    },
+    deleteQuestion(question) {
+      let quizId = this.$router.currentRoute.value.params['id'];
+      axios.delete(baseUrl + "/quizzes/" + quizId + "/questions/" + question.id, {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem("token")
+        }
+      })
+          .then(() => {
+            this.loadQuestions();
           }).catch(err => {
         console.error(err);
       })
