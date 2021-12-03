@@ -10,11 +10,11 @@
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="quizzes" >
+        <a-menu-item key="quizzes" class="header-set" >
           <router-link to="/quizzes"></router-link>
           Quizzes
         </a-menu-item>
-        <a-menu-item key="about" >
+        <a-menu-item key="about" class="header-set">
           <router-link to="/about"></router-link>
           About
         </a-menu-item>
@@ -79,8 +79,7 @@ export default defineComponent({
   margin: 16px 0 16px 24px;
 }
 
-/* [data-theme='dark'] .site-layout-content {
- 
-  background: #141414;
-} */
+.header-set {
+  color: white;
+}
 </style>

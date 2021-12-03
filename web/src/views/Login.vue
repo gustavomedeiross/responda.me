@@ -89,9 +89,9 @@ export default defineComponent({
         email: userData.user,
         password: userData.password
       }).then((res) => {
-        sessionStorage.setItem("token", res.data.token)
-        sessionStorage.setItem("user", JSON.stringify(res.data.user))
-        // todo this.$router.go(); fix headers
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
+        sessionStorage.setItem("needsRefresh", true);
         this.$router.push("/quizzes");
       }).catch((err) => {
         console.error(err);
