@@ -1,12 +1,10 @@
 <template>
+  <a-button style="margin-bottom: 20px" type="primary" @click.prevent="goBack()">Voltar</a-button>
+
+
   <h4>{{ $router.currentRoute.value.params['id'] }}</h4>
   <a-form>
 
-    {{ quiz }}
-    <br/>
-    {{ alternative }}
-    <br/>
-    {{ question }}
 
     <a-form-item label="Título">
       <a-input v-model:value="quiz.title"/>
@@ -106,7 +104,6 @@ export default defineComponent({
       this.$router.push("/login");
     }
 
-
     this.loadQuiz();
     this.loadQuestions();
   },
@@ -151,8 +148,26 @@ export default defineComponent({
           console.error(err);
         })
       } else {
-        // save quiz
+
+        axios.put(baseUrl + "/quizzes/" + this.quiz.id, {
+          quiz: {
+            title: this.quiz.title
+          }
+        }, {
+          headers: {
+            authorization: 'Bearer ' + sessionStorage.getItem("token")
+          }
+        })
+            .then(res => {
+              this.quiz = res.data.data;
+            }).catch(err => {
+          console.error(err);
+        })
+
       }
+    },
+    goBack() {
+      this.$router.push('/quizzes');
     },
     loadQuestions() {
       let quizId = this.$router.currentRoute.value.params['id'];
