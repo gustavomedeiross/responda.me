@@ -8,45 +8,46 @@
     >
       <h1>Conta</h1>
       <h2>nome de usuário</h2>
-      <p>{{user.full_name}}</p>
+      <p>{{ user.full_name }}</p>
       <h2>Email</h2>
-      <p>{{user.email}}</p>
+      <p>{{ user.email }}</p>
 
-            <a-button
-                type="primary"
-                style="background: #6d25a4"
-                html-type="submit"
-                @click.prevent="logout"
-               >
-             Logout
-            </a-button>
+      <a-button
+          type="primary"
+          style="background: #6d25a4"
+          html-type="submit"
+          @click.prevent="logout"
+      >
+        Logout
+      </a-button>
+
+      <div style="height: 20px"></div>
     </a-form>
+
   </div>
 </template>
 <script>
 
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 
 export default defineComponent({
   methods: {
-      logout(){
-        sessionStorage.setItem("token", null)
-     sessionStorage.setItem("user", null)
-     this.$router.push("/login")
-  },
+    logout() {
+      sessionStorage.setItem("token", null);
+      sessionStorage.setItem("user", null);
+      sessionStorage.setItem("needsRefresh", true);
+      this.$router.push("/login")
+    },
   },
   data() {
     return {
-      user: {
-      
-      },
+      user: {},
 
     };
   },
-  beforeMount(){
+  beforeMount() {
     this.user = JSON.parse(sessionStorage.getItem("user"))
-  
   }
 });
 </script>

@@ -79,7 +79,14 @@ export default defineComponent({
   methods: {
     beforeMount() {
 
+      const y = sessionStorage.getItem("needsRefresh");
+      if (y === 'true') {
+        sessionStorage.setItem("needsRefresh", null);
+        this.$router.go();
+      }
+
       const x = sessionStorage.getItem("token");
+
       if (x !== null) {
         this.$router.push("/quizzes");
       }

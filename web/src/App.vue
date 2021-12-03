@@ -18,16 +18,21 @@
 
           <a-menu-item key="quizzes" class="header-set">
 
-          <ExperimentOutlined/>
-          <router-link to="/quizzes"></router-link>
-          Quizzes
-        </a-menu-item>
-        <a-menu-item key="about" class="header-set">
-          <QuestionCircleOutlined/>
-          <router-link to="/about"></router-link>
-          About
-        </a-menu-item>
+            <ExperimentOutlined/>
+            <router-link to="/quizzes"></router-link>
+            Quizzes
+          </a-menu-item>
+          <a-menu-item key="about" class="header-set">
+            <QuestionCircleOutlined/>
+            <router-link to="/about"></router-link>
+            About
+          </a-menu-item>
         </div>
+        <a-menu-item key="account" class="header-set" >
+          <UserOutlined />
+          <router-link to="/account"></router-link>
+          Account
+        </a-menu-item>
       </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
@@ -50,17 +55,22 @@
 import {defineComponent, ref} from 'vue';
 // eslint-disable-next-line no-unused-vars
 import {string} from "vue-types";
-import {ExperimentOutlined, QuestionCircleOutlined} from "@ant-design/icons-vue";
+import {ExperimentOutlined, QuestionCircleOutlined, UserOutlined} from "@ant-design/icons-vue";
 
 export default defineComponent({
   components: {
     ExperimentOutlined,
-    QuestionCircleOutlined
-
+    QuestionCircleOutlined,
+    UserOutlined
   },
   methods: {
     isLogged() {
-      return sessionStorage.getItem("token") !== null;
+      let x = sessionStorage.getItem("token");
+      if (x === 'null') {
+        x = null;
+        sessionStorage.setItem("needRefresh", true);
+      }
+      return x !== null;
     }
   },
   setup() {
