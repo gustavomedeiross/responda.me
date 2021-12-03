@@ -1,6 +1,8 @@
 <template>
   <a-layout class="layout" >
-    <a-layout-header style="background: #6d25a4">
+    <div v-if="!isLogged()" style="height: 120px">
+    </div>
+    <a-layout-header style="background: #6d25a4" v-if="isLogged()">
       <div class="logo" />
       <a-menu
           v-model:selectedKeys="selectedKeys"
@@ -19,7 +21,7 @@
       </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
-      <a-breadcrumb style="margin: 16px 0">
+      <a-breadcrumb style="margin: 16px 0" v-if="isLogged()">
         <a-breadcrumb-item v-for="item in breadcrumbs($router)" :key="item">
           {{ item }}
         </a-breadcrumb-item>
@@ -40,6 +42,11 @@ import {defineComponent, ref} from 'vue';
 import {string} from "vue-types";
 
 export default defineComponent({
+  methods: {
+    isLogged() {
+      return sessionStorage.getItem("token") !== null;
+    }
+  },
   setup() {
     const breadcrumbs = function (router) {
       let routes = router.currentRoute.value.fullPath;

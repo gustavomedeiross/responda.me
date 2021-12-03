@@ -9,6 +9,12 @@
               <h3>{{ item.title }}</h3>
             </template>
           </a-list-item-meta>
+          <a-button style="margin-left: 20px" type="secondary" @click.prevent="editQuiz(item)">
+            <EditOutlined/>
+          </a-button>
+          <a-button style="margin-left: 20px" type="primary" danger @click.prevent="deleteQuiz(item)">
+            <DeleteOutlined/>
+          </a-button>
         </a-list-item>
       </template>
     </a-list>
@@ -28,10 +34,13 @@ import {defineComponent} from 'vue';
 import {baseUrl} from "@/services/QuizService";
 import CreateQuiz from "@/views/quiz/CreateQuiz";
 import axios from "axios";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons-vue";
 
 export default defineComponent({
   components: {
-    CreateQuiz
+    CreateQuiz,
+    EditOutlined,
+    DeleteOutlined
   },
   data() {
     return {
@@ -42,8 +51,29 @@ export default defineComponent({
     isOnPageCreate(router) {
       return router.currentRoute.value.name === 'create';
     },
+    editQuiz(quiz) {
+      this.$router.push(/quizzes/ + quiz.id);
+    },
+    deleteQuiz(quiz) {
+      axios.delete(baseUrl + '/quizzes/' + quiz.id,
+          {
+            headers: {
+              authorization: 'Bearer ' + sessionStorage.getItem("token")
+            }
+          })
+          .then(() => {
+            this.loadData();
+          }).catch((err) => {
+        console.error(err);
+      });
+    },
     loadData() {
-      axios.get(baseUrl + '/quizzes')
+      axios.get(baseUrl + '/quizzes',
+          {
+            headers: {
+              authorization: 'Bearer ' + sessionStorage.getItem("token")
+            }
+          })
           .then((res) => {
             this.data = res.data.data;
           }).catch((err) => {

@@ -71,7 +71,6 @@
           <a-form-item>
             <a-button
                 type="primary"
-                style="background: #6d25a4"
                 html-type="submit"
                 :disabled="
                 formState.name === '' ||
@@ -85,9 +84,9 @@
             </a-button>
             <a-divider/>
             <a-row type="primary" justify="center">
-              <p>Já Tem Cadastro?</p>
-              <a href="/login">Login</a>
+              <p>Já tem cadastro?</p>
             </a-row>
+            <a href="/login">Login</a>
           </a-form-item>
         </a-col>
 
