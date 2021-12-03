@@ -85,11 +85,11 @@ export default defineComponent({
     if (sessionStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+
     if (sessionStorage.getItem("needsRefresh") === 'true') {
       sessionStorage.setItem("needsRefresh", null);
       this.$router.go();
     }
-
     this.loadData();
   },
 

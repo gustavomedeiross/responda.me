@@ -20,7 +20,7 @@
 
         <a-col :span="12">
           <a-form-item>
-            <a-input v-model:value="formState.user" placeholder="Nome de Usuário">
+            <a-input v-model:value="formState.user" placeholder="Email">
               <template #prefix
               >
                 <UserOutlined style="color: rgba(0, 0, 0, 0.25)"
@@ -58,6 +58,7 @@
             <a href="/register">Cadastrar-se</a>
           </a-form-item>
 
+
         </a-col>
 
       </a-row>
@@ -89,10 +90,12 @@ export default defineComponent({
         email: userData.user,
         password: userData.password
       }).then((res) => {
+
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
         sessionStorage.setItem("needsRefresh", true);
         this.$router.push("/quizzes");
+
       }).catch((err) => {
         console.error(err);
       });
