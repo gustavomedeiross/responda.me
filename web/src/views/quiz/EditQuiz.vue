@@ -31,13 +31,13 @@
     </div>
 
 
-    <a-form-item :wrapper-col="{ span: 5, offset: 4 }" v-if="!creatingNewQuestion">
+    <a-form-item :wrapper-col="{ span: 5, offset: 4 }" v-if="!creatingNewQuestion && !editingQuestion">
       <a-button type="primary" @click.prevent="newQuestion()">Adicionar Questões</a-button>
     </a-form-item>
 
-    <div v-if="creatingNewQuestion">
+    <div v-if="creatingNewQuestion || editingQuestion">
 
-      <a-form-item v-bind:label="'Questão ' + (questions.length+1) ">
+      <a-form-item v-bind:label="'Questão ' + (questions.length+1) " v-if="!editingQuestion">
         <a-input v-model:value="question.content"/>
       </a-form-item>
 
@@ -96,7 +96,8 @@ export default defineComponent({
       questions: [],
       alternative: [],
       count: 0,
-      creatingNewQuestion: false
+      creatingNewQuestion: false,
+      editingQuestion: false
     }
   },
   beforeMount() {
@@ -116,7 +117,6 @@ export default defineComponent({
             }
           })
           .then(res => {
-            console.log(res.data.data);
             this.quiz = res.data.data;
           }).catch(err => {
         console.error(err);
@@ -126,6 +126,7 @@ export default defineComponent({
       if (this.creatingNewQuestion) {
         this.creatingNewQuestion = false;
         let quizId = this.$router.currentRoute.value.params['id'];
+
         axios.post(baseUrl + "/quizzes/" + quizId + "/questions", {
           question: {
             quiz_id: quizId,
@@ -137,8 +138,7 @@ export default defineComponent({
             authorization: 'Bearer ' + sessionStorage.getItem("token")
           }
         })
-            .then(res => {
-              console.log(res.data.data);
+            .then(() => {
               this.question = {
                 content: '',
               };
@@ -147,8 +147,28 @@ export default defineComponent({
             }).catch(err => {
           console.error(err);
         })
-      } else {
+      } else if (this.editingQuestion) {
 
+        let quizId = this.$router.currentRoute.value.params['id'];
+        this.editingQuestion = false;
+
+        axios.put(baseUrl + "/quizzes/" + quizId + "/questions/" + this.question.id, {
+          question: {
+            quiz_id: quizId,
+            title: this.question.content,
+            alternatives: this.alternative
+          }
+        }, {
+          headers: {
+            authorization: 'Bearer ' + sessionStorage.getItem("token")
+          }
+        })
+            .catch(err => {
+              console.error(err);
+            })
+
+
+      } else {
         axios.put(baseUrl + "/quizzes/" + this.quiz.id, {
           quiz: {
             title: this.quiz.title
@@ -191,7 +211,16 @@ export default defineComponent({
         }
       })
           .then(res => {
-            this.questions = res.data.data;
+            this.question = {
+              id: res.data.data.id,
+              content: res.data.data.title
+            };
+            this.alternative = res.data.data.alternatives;
+            let count = 0;
+            this.alternative.forEach((a) => {
+              a.key = count++;
+            });
+            this.editingQuestion = true;
           }).catch(err => {
         console.error(err);
       })
@@ -236,7 +265,8 @@ export default defineComponent({
       }))
     }
   }
-});
+})
+;
 </script>
 
 
