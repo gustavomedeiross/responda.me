@@ -27,9 +27,21 @@ defmodule Responda.MeWeb.Api.QuestionControllerTest do
       question = insert!(:question, quiz_id: quiz.id, alternatives: [
         build(:alternative, correct: true),
         build(:alternative, correct: false),
+        build(:alternative, correct: false),
       ])
       conn = get(conn, Routes.api_question_path(conn, :show, quiz.id, question.id))
-      assert json_response(conn, 200)["data"] != nil
+      assert %{
+        "data" => %{
+          "id" => _id,
+          "title" => _title,
+          "quiz_id" => _quiz_id,
+          "alternatives" => [
+            %{"content" => _, "correct" => _},
+            %{"content" => _, "correct" => _},
+            %{"content" => _, "correct" => _},
+          ],
+        }
+      } = json_response(conn, 200)
     end
   end
 end

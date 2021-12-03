@@ -36,7 +36,10 @@ defmodule Responda.Me.Questions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_question!(id), do: Repo.get!(Question, id)
+  def get_question!(id) do
+    Repo.get!(Question, id)
+    |> Repo.preload(:alternatives)
+  end
 
   # TODO: refactor
   @doc """
