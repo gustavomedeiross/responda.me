@@ -6,8 +6,8 @@ defmodule Responda.MeWeb.Api.QuestionController do
 
   action_fallback Responda.MeWeb.FallbackController
 
-  def index(conn, _params) do
-    questions = Questions.list_questions()
+  def index(conn, %{"quiz_id" => quiz_id}) do
+    questions = Questions.list_questions(quiz_id)
     render(conn, "index.json", questions: questions)
   end
 

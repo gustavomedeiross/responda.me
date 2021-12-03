@@ -17,8 +17,9 @@ defmodule Responda.Me.Questions do
       [%Question{}, ...]
 
   """
-  def list_questions do
-    Repo.all(Question)
+  def list_questions(quiz_id) do
+    (from q in Question, where: q.quiz_id == ^quiz_id)
+    |> Repo.all()
   end
 
   @doc """

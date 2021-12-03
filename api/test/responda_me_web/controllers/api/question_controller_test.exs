@@ -21,5 +21,15 @@ defmodule Responda.MeWeb.Api.QuestionControllerTest do
       conn = get(conn, Routes.api_question_path(conn, :index, quiz.id))
       assert length(json_response(conn, 200)["data"]) == 3
     end
+
+    test "gets a question detail", %{conn: conn} do
+      quiz = insert!(:quiz)
+      question = insert!(:question, quiz_id: quiz.id, alternatives: [
+        build(:alternative, correct: true),
+        build(:alternative, correct: false),
+      ])
+      conn = get(conn, Routes.api_question_path(conn, :show, quiz.id, question.id))
+      assert json_response(conn, 200)["data"] != nil
+    end
   end
 end

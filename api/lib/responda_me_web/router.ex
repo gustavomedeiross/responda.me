@@ -21,7 +21,7 @@ defmodule Responda.MeWeb.Router do
     pipe_through [:api, :api_authenticated]
 
     resources "/quizzes", QuizController
-    resources "/quizzes/:id/questions", QuestionController
+    resources "/quizzes/:quiz_id/questions", QuestionController
   end
 
   # Enables LiveDashboard only for development
