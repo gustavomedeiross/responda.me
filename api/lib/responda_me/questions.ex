@@ -41,7 +41,6 @@ defmodule Responda.Me.Questions do
     |> Repo.preload(:alternatives)
   end
 
-  # TODO: refactor
   @doc """
   Creates a question.
 
@@ -55,23 +54,11 @@ defmodule Responda.Me.Questions do
 
   """
   def create_question(attrs \\ %{}) do
-    import Ecto.Changeset
-
-    question = Question.changeset(%Question{}, attrs)
-    if question.valid? do
-      alternatives = get_field question, :alternatives
-      correct_alternatives = Enum.count alternatives, (fn a -> a.correct end)
-      if correct_alternatives == 1 do
-        Repo.insert(question)
-      else
-        {:error, :only_one_alternative_can_be_correct}
-      end
-    else
-      {:error, question}
-    end
+    %Question{}
+    |> Question.changeset(attrs)
+    |> Repo.insert()
   end
 
-  # TODO: refactor
   @doc """
   Updates a question.
 
@@ -85,20 +72,9 @@ defmodule Responda.Me.Questions do
 
   """
   def update_question(%Question{} = question, attrs) do
-    import Ecto.Changeset
-
-    question = Question.changeset(question, attrs)
-    if question.valid? do
-      alternatives = get_field question, :alternatives
-      correct_alternatives = Enum.count alternatives, (fn a -> a.correct end)
-      if correct_alternatives == 1 do
-        Repo.update(question)
-      else
-        {:error, :only_one_alternative_can_be_correct}
-      end
-    else
-      {:error, question}
-    end
+    question
+    |> Question.changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """

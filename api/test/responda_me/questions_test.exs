@@ -57,7 +57,7 @@ defmodule Responda.Me.QuestionsTest do
           %{content: "alternative#3", correct: false}
         ],
       }
-      assert {:error, :only_one_alternative_can_be_correct} = Questions.create_question(attrs)
+      assert {:error, %Ecto.Changeset{}} = Questions.create_question(attrs)
     end
 
     test "should not create question with invalid data" do
@@ -102,7 +102,7 @@ defmodule Responda.Me.QuestionsTest do
           %{content: "3!", correct: false}
         ],
       }
-      assert {:error, :only_one_alternative_can_be_correct} = Questions.update_question(question, attrs)
+      assert {:error, %Ecto.Changeset{}} = Questions.update_question(question, attrs)
     end
 
     test "should not update a question without alternatives" do
