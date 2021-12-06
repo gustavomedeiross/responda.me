@@ -1,0 +1,61 @@
+name: Elixir CI
+
+on:
+  push:
+    branches: [ master ]
+
+defaults:
+  run:
+    working-directory: api
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: bitwalker/alpine-elixir-phoenix:latest
+      env:
+        MIX_ENV: test
+      
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: docker
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        # for imagemagick
+        apk add --no-cache file
+        apk --update add imagemagick
+        mix deps.get
+    - name: Run Tests
+      env:
+        DB_HOST: postgres
+      run: |
+        mix test
+        
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy API project on Digital Ocean droplet using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd ~/app/responda.me/api
+          git pull
+          source ./scripts/env.secret.sh
+          ./scripts/deploy.sh
+          sudo systemctl restart responda.me.service

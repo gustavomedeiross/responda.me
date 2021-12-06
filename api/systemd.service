@@ -1,0 +1,25 @@
+[Unit]
+Description=responda.me service
+After=local-fs.target network.target
+
+[Service]
+Type=simple
+User=deploy
+Group=deploy
+WorkingDirectory=/home/deploy/app/responda.me/responda_me/_build/prod/rel/responda_me
+ExecStart=/home/deploy/app/responda.me/responda_me/_build/prod/rel/responda_me/bin/responda_me start
+ExecStop=/home/deploy/app/responda.me/responda_me/_build/prod/rel/responda_me/bin/responda_me stop
+EnvironmentFile=/etc/default/responda.me.env
+Environment=LANG=en_US.utf8
+Environment=MIX_ENV=prod
+
+
+Environment=PORT=4000
+LimitNOFILE=65535
+UMask=0027
+SyslogIdentifier=responda.me
+Restart=always
+
+
+[Install]
+WantedBy=multi-user.target
